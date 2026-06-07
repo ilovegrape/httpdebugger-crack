@@ -62,13 +62,13 @@ public:
     template <typename _Type> const _Type getBinary(const std::string& key) {
         _Type value{};
 
-        this->queryValue<_Type>(key, value, [&](const QueriedValue& queriedValue) {
+        this->queryValue(key, [&](const QueriedValue& queriedValue) -> void* {
             if (queriedValue.type != REG_BINARY) {
                 throw std::system_error{ ERROR_DATATYPE_MISMATCH, std::system_category(),
                                         "Readed data type mismatch" };
             }
-        return false;
-            });
+            return &value;
+        });
 
         return value;
     }

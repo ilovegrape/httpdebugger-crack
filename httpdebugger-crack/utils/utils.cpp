@@ -7,7 +7,7 @@
 
 #include "utils.hh"
 #include "regedit.hh"
-#include <format>
+// <format> removed: requires C++20, not used in this file
 
 std::string utils::get_regex(std::regex rx, std::string text) {
 	std::smatch matched_rx;
@@ -15,6 +15,7 @@ std::string utils::get_regex(std::regex rx, std::string text) {
 
 	if (!matched_rx.str(0).empty())
 		return matched_rx.str(0);
+	return {};
 }
 
 void utils::get_app_version() {
@@ -85,8 +86,8 @@ void utils::write_key() {
     utils::get_serial_number();
     utils::create_key();
 
-    printf("[ < ] parsed_version: %s\n", utils::parsed_version);
-    printf("[ < ] serial_number: SN%s\n", utils::serial_number);
+    printf("[ < ] parsed_version: %s\n", utils::parsed_version.c_str());
+    printf("[ < ] serial_number: SN%s\n", utils::serial_number.c_str());
     printf("[ < ] generated_key: %s\n", utils::generated_key.c_str());
 
     RegEdit re{ RegEdit::Key::KEY_CURRENT_USER, "SOFTWARE\\MadeForNet\\HTTPDebuggerPro" };
